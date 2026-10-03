@@ -1,0 +1,142 @@
+/*
+ * Flowpane design tokens. Override any --fp-* variable on :root (or a wrapper element) to theme the library.
+ * Dark mode: set data-fp-theme="dark" on <html>, or leave it unset to follow the OS setting.
+ */
+:root {
+  --fp-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fp-font-size-xs: 0.75rem;
+  --fp-font-size-sm: 0.875rem;
+  --fp-font-size-md: 1rem;
+  --fp-font-size-lg: 1.125rem;
+  --fp-font-size-xl: 1.25rem;
+
+  --fp-radius-sm: 6px;
+  --fp-radius-md: 10px;
+  --fp-radius-lg: 14px;
+  --fp-radius-full: 999px;
+
+  --fp-space-1: 0.25rem;
+  --fp-space-2: 0.5rem;
+  --fp-space-3: 0.75rem;
+  --fp-space-4: 1rem;
+  --fp-space-5: 1.25rem;
+  --fp-space-6: 1.5rem;
+  --fp-space-8: 2rem;
+
+  --fp-duration: 160ms;
+  --fp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --fp-color-bg: #ffffff;
+  --fp-color-bg-subtle: #f7f7f8;
+  --fp-color-surface: #ffffff;
+  --fp-color-border: #e4e4e7;
+  --fp-color-border-strong: #c4c4cc;
+  --fp-color-text: #18181b;
+  --fp-color-text-muted: #52525b;
+  --fp-color-text-subtle: #71717a;
+
+  --fp-color-accent: #2563eb;
+  --fp-color-accent-hover: #1d4ed8;
+  --fp-color-accent-fg: #ffffff;
+  --fp-color-accent-text: #1d4ed8;
+  --fp-color-accent-soft: #eff6ff;
+  --fp-color-accent-soft-fg: #1e40af;
+
+  --fp-color-danger: #dc2626;
+  --fp-color-danger-hover: #b91c1c;
+  --fp-color-danger-fg: #ffffff;
+  --fp-color-danger-soft: #fef2f2;
+  --fp-color-danger-soft-fg: #991b1b;
+
+  --fp-color-success-soft: #f0fdf4;
+  --fp-color-success-soft-fg: #166534;
+  --fp-color-success: #16a34a;
+  --fp-color-warning-soft: #fffbeb;
+  --fp-color-warning-soft-fg: #92400e;
+  --fp-color-warning: #d97706;
+  --fp-color-neutral-soft: #f4f4f5;
+  --fp-color-neutral-soft-fg: #3f3f46;
+
+  --fp-color-overlay: rgb(9 9 11 / 0.5);
+  --fp-focus-ring: 0 0 0 3px rgb(37 99 235 / 0.35);
+  --fp-shadow-sm: 0 1px 2px rgb(9 9 11 / 0.06);
+  --fp-shadow-lg: 0 20px 50px rgb(9 9 11 / 0.18);
+}
+
+[data-fp-theme="dark"] {
+  --fp-color-bg: #09090b;
+  --fp-color-bg-subtle: #111114;
+  --fp-color-surface: #18181b;
+  --fp-color-border: #27272a;
+  --fp-color-border-strong: #3f3f46;
+  --fp-color-text: #fafafa;
+  --fp-color-text-muted: #a1a1aa;
+  --fp-color-text-subtle: #8b8b94;
+
+  --fp-color-accent: #2563eb;
+  --fp-color-accent-hover: #1d4ed8;
+  --fp-color-accent-fg: #ffffff;
+  --fp-color-accent-text: #60a5fa;
+  --fp-color-accent-soft: #172554;
+  --fp-color-accent-soft-fg: #bfdbfe;
+
+  --fp-color-danger: #dc2626;
+  --fp-color-danger-hover: #b91c1c;
+  --fp-color-danger-soft: #450a0a;
+  --fp-color-danger-soft-fg: #fecaca;
+
+  --fp-color-success-soft: #052e16;
+  --fp-color-success-soft-fg: #bbf7d0;
+  --fp-color-success: #22c55e;
+  --fp-color-warning-soft: #451a03;
+  --fp-color-warning-soft-fg: #fde68a;
+  --fp-color-warning: #f59e0b;
+  --fp-color-neutral-soft: #27272a;
+  --fp-color-neutral-soft-fg: #d4d4d8;
+
+  --fp-color-overlay: rgb(0 0 0 / 0.65);
+  --fp-focus-ring: 0 0 0 3px rgb(96 165 250 / 0.45);
+  --fp-shadow-sm: none;
+  --fp-shadow-lg: 0 20px 50px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-fp-theme="light"]) {
+    --fp-color-bg: #09090b;
+    --fp-color-bg-subtle: #111114;
+    --fp-color-surface: #18181b;
+    --fp-color-border: #27272a;
+    --fp-color-border-strong: #3f3f46;
+    --fp-color-text: #fafafa;
+    --fp-color-text-muted: #a1a1aa;
+    --fp-color-text-subtle: #8b8b94;
+
+    --fp-color-accent: #2563eb;
+    --fp-color-accent-hover: #1d4ed8;
+    --fp-color-accent-fg: #ffffff;
+    --fp-color-accent-text: #60a5fa;
+    --fp-color-accent-soft: #172554;
+    --fp-color-accent-soft-fg: #bfdbfe;
+
+    --fp-color-danger: #dc2626;
+    --fp-color-danger-hover: #b91c1c;
+    --fp-color-danger-soft: #450a0a;
+    --fp-color-danger-soft-fg: #fecaca;
+
+    --fp-color-success-soft: #052e16;
+    --fp-color-success-soft-fg: #bbf7d0;
+    --fp-color-success: #22c55e;
+    --fp-color-warning-soft: #451a03;
+    --fp-color-warning-soft-fg: #fde68a;
+    --fp-color-warning: #f59e0b;
+    --fp-color-neutral-soft: #27272a;
+    --fp-color-neutral-soft-fg: #d4d4d8;
+
+    --fp-color-overlay: rgb(0 0 0 / 0.65);
+    --fp-focus-ring: 0 0 0 3px rgb(96 165 250 / 0.45);
+    --fp-shadow-sm: none;
+    --fp-shadow-lg: 0 20px 50px rgb(0 0 0 / 0.5);
+    color-scheme: dark;
+  }
+}

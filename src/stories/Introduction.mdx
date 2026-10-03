@@ -1,0 +1,29 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# Flowpane
+
+**Accessible React components for workflow-heavy business apps:** admin panels, internal tools, and operations dashboards.
+
+General-purpose libraries give you buttons and dialogs, then leave you to build the hard parts of a back-office screen yourself. Flowpane covers both: the everyday primitives, plus the workflow pieces you end up rebuilding on every project.
+
+| Workflow components | Building blocks |
+| --- | --- |
+| **DataTable**: sorting, search, row selection, pagination, bulk actions | **Button**, **TextField**, **Select**, **Checkbox** |
+| **Stepper**: progress through multi-step flows | **Dialog**: focus-trapped modal and alert dialog |
+| **StatusBadge**: consistent status labels | **Tabs**: WAI-ARIA tabs with full keyboard support |
+| **EmptyState**: helpful empty and no-results views | **Toast**: accessible notifications with Undo actions |
+
+See them working together in **Examples → Orders admin**.
+
+## Principles
+
+- **Accessible by default.** Every component follows the WAI-ARIA Authoring Practices: correct roles and labels, full keyboard support, focus management, and live-region announcements. Each one is tested with automated axe-core checks.
+- **Native first.** Real `<button>`, `<input>`, `<select>`, and `<table>` elements wherever possible, so browsers and assistive tech do the heavy lifting.
+- **Themeable without a framework.** Plain CSS with `--fp-*` custom properties. No Tailwind or CSS-in-JS required. Light and dark themes are built in.
+- **Typed and small.** Written in TypeScript with generics where they matter (`DataTable<Order>`), tree-shakeable ESM, and React as the only peer dependency.
+
+## Status
+
+Version **0.1**: the API may change before 1.0. Planned next: Combobox, DatePicker, Popover/Menu, and column filters for DataTable.

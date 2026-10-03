@@ -1,0 +1,67 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Theming" />
+
+# Theming
+
+Flowpane is styled with plain CSS and `--fp-*` custom properties. Override them after importing `flowpane/styles.css`. No build step or framework is needed.
+
+## Brand colour
+
+```css
+:root {
+  --fp-color-accent: #7c3aed;       /* filled buttons, checked boxes, active tab */
+  --fp-color-accent-hover: #6d28d9;
+  --fp-color-accent-text: #6d28d9;  /* accent used as text: must pass 4.5:1 on your background */
+  --fp-color-accent-soft: #f5f3ff;  /* selected rows, info badges */
+  --fp-color-accent-soft-fg: #5b21b6;
+  --fp-focus-ring: 0 0 0 3px rgb(124 58 237 / 0.35);
+}
+```
+
+## Shape and type
+
+```css
+:root {
+  --fp-font-sans: "Inter", system-ui, sans-serif;
+  --fp-radius-md: 6px;   /* buttons and inputs */
+  --fp-radius-lg: 8px;   /* dialogs and tables */
+}
+```
+
+## Dark mode
+
+Dark mode follows the operating system by default. To control it yourself, set `data-fp-theme` on `<html>` (or any wrapper):
+
+```html
+<html data-fp-theme="dark">  <!-- always dark -->
+<html data-fp-theme="light"> <!-- always light, even if the OS is dark -->
+```
+
+Use the **Theme** toggle in the toolbar above to preview every component in both modes.
+
+## Scoped themes
+
+Tokens are ordinary CSS variables, so you can theme one area of a page differently:
+
+```css
+.billing-panel {
+  --fp-color-accent: #059669;
+  --fp-color-accent-hover: #047857;
+}
+```
+
+## Token reference
+
+| Token | Purpose |
+| --- | --- |
+| `--fp-color-bg`, `--fp-color-bg-subtle`, `--fp-color-surface` | Page, muted, and card backgrounds |
+| `--fp-color-text`, `--fp-color-text-muted`, `--fp-color-text-subtle` | Text hierarchy |
+| `--fp-color-border`, `--fp-color-border-strong` | Dividers and input borders |
+| `--fp-color-accent*` | Primary actions and selection |
+| `--fp-color-danger*`, `--fp-color-success*`, `--fp-color-warning*`, `--fp-color-neutral-soft*` | Status colours |
+| `--fp-radius-sm/md/lg/full` | Corner radius scale |
+| `--fp-space-1` … `--fp-space-8` | Spacing scale |
+| `--fp-focus-ring` | Keyboard focus indicator |
+
+All default colour pairs meet WCAG AA contrast (4.5:1) in both themes.

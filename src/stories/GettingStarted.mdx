@@ -1,0 +1,76 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting started" />
+
+# Getting started
+
+## 1. Install
+
+```bash
+npm install flowpane
+```
+
+React 18.2+ or 19 is required as a peer dependency.
+
+## 2. Import the stylesheet once
+
+At your app's entry point (e.g. `main.tsx`, or `app/layout.tsx` in Next.js):
+
+```tsx
+import "flowpane/styles.css";
+```
+
+## 3. Use the components
+
+```tsx
+import { Button, DataTable, StatusBadge, type DataTableColumn } from "flowpane";
+
+type Order = { id: string; customer: string; status: "Paid" | "Pending"; total: number };
+
+const columns: DataTableColumn<Order>[] = [
+  { id: "id", header: "Order", accessor: (o) => o.id, sortable: true },
+  { id: "customer", header: "Customer", accessor: (o) => o.customer, sortable: true },
+  {
+    id: "status",
+    header: "Status",
+    accessor: (o) => o.status,
+    cell: (o) => <StatusBadge tone={o.status === "Paid" ? "success" : "warning"}>{o.status}</StatusBadge>
+  },
+  { id: "total", header: "Total", accessor: (o) => o.total, sortable: true, align: "right" }
+];
+
+export function Orders({ orders }: { orders: Order[] }) {
+  return (
+    <DataTable
+      data={orders}
+      columns={columns}
+      getRowId={(o) => o.id}
+      caption="Recent orders"
+      searchable
+      selectable
+      toolbar={({ selectedIds }) => selectedIds.length > 0 && <Button size="sm">Export {selectedIds.length}</Button>}
+    />
+  );
+}
+```
+
+## 4. Toasts (optional)
+
+Wrap your app once, then call `toast()` anywhere:
+
+```tsx
+import { ToastProvider, useToast } from "flowpane";
+
+<ToastProvider>
+  <App />
+</ToastProvider>;
+
+function SaveButton() {
+  const { toast } = useToast();
+  return <Button onClick={() => toast({ title: "Saved", tone: "success" })}>Save</Button>;
+}
+```
+
+## Next.js and server components
+
+Every component ships with a `"use client"` directive, so you can import them directly from server components in the App Router.

@@ -1,0 +1,6 @@
+/* Let the Flowpane theme drive the canvas so dark mode previews correctly. */
+body {
+  background: var(--fp-color-bg);
+  color: var(--fp-color-text);
+  font-family: var(--fp-font-sans);
+}
