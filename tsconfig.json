@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
@@ -14,7 +18,26 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "types": [
+      "node",
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
+    "paths": {
+      "flowpane": [
+        "./src/index.ts"
+      ],
+      "flowpane/styles.css": [
+        "./src/styles/index.css"
+      ]
+    }
   },
-  "include": ["src", ".storybook", "*.config.ts"]
+  "include": [
+    "src",
+    "site/src",
+    "site/vite.config.ts",
+    ".storybook",
+    "*.config.ts"
+  ]
 }

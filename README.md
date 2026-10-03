@@ -10,7 +10,7 @@ General-purpose libraries give you buttons and dialogs, then leave you to build 
 
 Every component is keyboard accessible, screen-reader friendly, themeable with CSS variables, and covered by tests that include automated axe-core accessibility checks.
 
-📖 **Docs and live examples:** run `npm run storybook`, or see the deployed Storybook (link coming soon).
+📖 **Docs:** live examples with copyable code, props tables, a theming playground, and keyboard and accessibility notes for every component. Run `npm run dev` locally, or see the deployed docs site (link coming soon). Storybook is published alongside it at `/storybook`.
 
 ## Install
 
@@ -99,11 +99,13 @@ Dark mode follows the OS by default; set `data-fp-theme="dark"` or `"light"` on 
 
 ```bash
 npm install
-npm run storybook    # docs at http://localhost:6006
+npm run dev          # docs site at http://localhost:5180
+npm run storybook    # component workbench at http://localhost:6006
 npm test             # Vitest + Testing Library + axe-core
 npm run typecheck
 npm run build        # ESM + CJS + type declarations + styles.css into dist/
-npm run check        # all of the above, as run in CI
+npm run build:docs   # docs site + Storybook into site-dist/ (what Vercel deploys)
+npm run check        # typecheck, tests, and package build
 ```
 
 ## Roadmap
