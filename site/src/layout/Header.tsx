@@ -45,7 +45,7 @@ export function Header({ onMenuClick, menuOpen }: { onMenuClick?: () => void; me
         <nav aria-label="Main" className="docs-header__nav">
           <Link to="/docs/introduction">Docs</Link>
           <Link to="/components/data-table">Components</Link>
-          <a href="/storybook/">Storybook</a>
+          <a href={`${import.meta.env.BASE_URL}storybook/`}>Storybook</a>
         </nav>
         <div className="docs-header__actions">
           <button type="button" className="docs-search-trigger" onClick={() => setSearchOpen(true)}>

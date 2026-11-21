@@ -81,6 +81,36 @@ describe("Tabs", () => {
     expect(screen.getByRole("tabpanel")).toHaveTextContent("Panel A");
   });
 
+  it("keeps the tab list keyboard-reachable when no tab is selected", async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <button type="button">Before</button>
+        <Tabs>
+          <TabList aria-label="No default">
+            <Tab value="first" disabled>
+              First
+            </Tab>
+            <Tab value="second">Second</Tab>
+            <Tab value="third">Third</Tab>
+          </TabList>
+          <TabPanel value="second">Second panel</TabPanel>
+          <TabPanel value="third">Third panel</TabPanel>
+        </Tabs>
+      </>
+    );
+    // The first enabled tab is the entry point while nothing is selected.
+    expect(screen.getByRole("tab", { name: "Second" })).toHaveAttribute("tabindex", "0");
+    expect(screen.getByRole("tab", { name: "Third" })).toHaveAttribute("tabindex", "-1");
+
+    await user.click(screen.getByRole("button", { name: "Before" }));
+    await user.tab();
+    expect(screen.getByRole("tab", { name: "Second" })).toHaveFocus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("tab", { name: "Third" })).toHaveFocus();
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("Third panel");
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(<Example />);
     await expectNoA11yViolations(container);

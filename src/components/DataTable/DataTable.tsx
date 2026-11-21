@@ -150,7 +150,13 @@ export function DataTable<T>({
     if (!column?.accessor) return filtered;
     const factor = sortState.direction === "asc" ? 1 : -1;
     // Copy before sorting; Array.prototype.sort is stable, so ties keep their original order.
-    return [...filtered].sort((a, b) => factor * compareValues(column.accessor!(a), column.accessor!(b)));
+    return [...filtered].sort((a, b) => {
+      const left = column.accessor!(a);
+      const right = column.accessor!(b);
+      // Empty values stay at the bottom in both directions, so only real values are flipped.
+      if (left == null || right == null) return compareValues(left, right);
+      return factor * compareValues(left, right);
+    });
   }, [filtered, columns, sortState]);
 
   const paginate = pageSize > 0;

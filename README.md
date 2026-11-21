@@ -1,27 +1,52 @@
 # Flowpane
 
-**Accessible React components for workflow-heavy business apps:** admin panels, internal tools, and operations dashboards.
+Accessible React + TypeScript components for **admin panels, internal tools, and operational dashboards**.
 
-General-purpose libraries give you buttons and dialogs, then leave you to build the hard parts of a back-office screen yourself. Flowpane ships both: the everyday primitives, plus the workflow components you end up rebuilding on every project.
+Flowpane pairs the everyday building blocks (buttons, fields, dialogs, tabs, toasts) with the workflow pieces back-office screens keep needing: a sortable, searchable, selectable **DataTable** with bulk actions, a **Stepper** for multi-step flows, and consistent status and empty states. It is small, has no runtime dependencies besides React, and is themed with plain CSS variables.
 
-- **DataTable** with sorting, search, row selection, pagination, and bulk actions
-- **Stepper** for multi-step flows, **StatusBadge**, **EmptyState**
-- **Button**, **TextField**, **Select**, **Checkbox**, **Dialog**, **Tabs**, **Toast**
+**[Documentation & live examples](https://sudharshanpanidev.github.io/flowpane/)** · **[Storybook](https://sudharshanpanidev.github.io/flowpane/storybook/)**
 
-Every component is keyboard accessible, screen-reader friendly, themeable with CSS variables, and covered by tests that include automated axe-core accessibility checks.
+> **Status:** v0.1.0. The API may change before 1.0. The package is built and validated but **not yet published to npm**.
 
-📖 **Docs:** live examples with copyable code, props tables, a theming playground, and keyboard and accessibility notes for every component. Run `npm run dev` locally, or see the deployed docs site (link coming soon). Storybook is published alongside it at `/storybook`.
+![Orders admin screen built with Flowpane: tabs, a searchable DataTable with two rows selected and bulk actions](https://raw.githubusercontent.com/SudharshanPaniDev/flowpane/main/.github/assets/data-table.png)
 
-## Install
+## Highlights
 
-```bash
-npm install flowpane
-```
+- **Accessible by default.** WAI-ARIA patterns for dialogs, tabs, and tables; full keyboard support; focus management; live-region announcements for sorting, search results, and toasts.
+- **Built for operational UIs.** A typed `DataTable<T>` with sorting, search, row selection, pagination, and a toolbar that receives the selection for bulk actions.
+- **Themeable without a framework.** Plain CSS with `--fp-*` custom properties. Light and dark themes included; dark mode follows the OS or can be set explicitly. Default colour pairs meet WCAG AA contrast.
+- **TypeScript first.** Strict types, generics where they help, and native HTML props on every primitive.
+- **Small and dependency-free.** React is the only peer dependency. ESM and CommonJS builds with tree-shaking: an app that only uses `Button` doesn't ship the DataTable code.
+
+## Components
+
+| Workflow | |
+| --- | --- |
+| `DataTable` | Typed columns, natural sorting with `aria-sort`, search, row and page selection with an indeterminate "select all", pagination, bulk-action toolbar, empty and no-results states |
+| `Stepper` | Progress through multi-step flows; announces "step 2 of 4, Current step"; completed steps can be revisited; horizontal or vertical |
+| `StatusBadge` | Consistent status labels in five tones; colour is never the only signal |
+| `EmptyState` | Empty and no-results views with a clear next step |
+
+| Building blocks | |
+| --- | --- |
+| `Button` | Four variants, three sizes, icons, and a `loading` state that stays focusable |
+| `TextField`, `Select` | Visible labels; descriptions and errors linked to the field; native `<select>` for robust keyboard and mobile behaviour |
+| `Checkbox` | Native input with an indeterminate state |
+| `Dialog` | Portal, focus trap, Escape to close, focus returned to the trigger, scroll lock, `alertdialog` for destructive confirmations |
+| `Tabs` | Roving tabindex, arrow keys and Home/End, disabled tabs skipped, controlled or uncontrolled |
+| `Toast` | Notifications region with `status`/`alert` roles, auto-dismiss that pauses on hover and focus, actions such as Undo |
+
+## Installation
 
 Requires React 18.2+ or 19.
 
+```bash
+npm install flowpane   # once published; see Status above
+```
+
+Import the stylesheet once at your app's entry point:
+
 ```tsx
-// Once, at your app's entry point
 import "flowpane/styles.css";
 ```
 
@@ -59,25 +84,11 @@ export function Orders({ orders }: { orders: Order[] }) {
 }
 ```
 
-For toasts, wrap your app in `<ToastProvider>` and call `toast()` from `useToast()`.
-
-## Components
-
-| Component | Highlights |
-| --- | --- |
-| `DataTable` | Typed columns (`DataTable<Order>`), natural sorting with `aria-sort`, search across columns, select rows or a whole page (with an indeterminate header checkbox), pagination, toolbar slot that receives the selection, empty and no-results states, live-region announcements |
-| `Stepper` | Ordered list with `aria-current="step"`, announces "step 2 of 4, Current step", optional jump-back to completed steps, horizontal or vertical |
-| `Dialog` | Portal, focus trap, Escape to close, focus restored to the trigger, scroll lock, `alertdialog` role for destructive confirmations |
-| `Tabs` | WAI-ARIA tabs: roving tabindex, arrow keys, Home/End, skips disabled tabs, controlled or uncontrolled |
-| `Toast` | Labelled notifications region, `status` vs `alert` by tone, auto-dismiss that pauses on hover and focus, actions like Undo |
-| `TextField`, `Select` | Visible labels, descriptions and errors linked with `aria-describedby`, `aria-invalid` on error |
-| `Checkbox` | Native input, indeterminate state exposed as `aria-checked="mixed"` |
-| `Button` | Variants, sizes, icons, and a `loading` state that stays focusable and readable |
-| `StatusBadge`, `EmptyState` | Consistent status labels; empty views with a clear next step |
+For toasts, wrap your app in `<ToastProvider>` once and call `toast()` from `useToast()`. Every component ships with a `"use client"` directive, so it works in the Next.js App Router.
 
 ## Theming
 
-Override any `--fp-*` variable after importing the stylesheet:
+Override any `--fp-*` variable after importing the stylesheet, globally or on a wrapper element:
 
 ```css
 :root {
@@ -87,31 +98,53 @@ Override any `--fp-*` variable after importing the stylesheet:
 }
 ```
 
-Dark mode follows the OS by default; set `data-fp-theme="dark"` or `"light"` on `<html>` to control it. All default colour pairs meet WCAG AA contrast in both themes.
+Dark mode follows the operating system by default. Set `data-fp-theme="dark"` or `data-fp-theme="light"` on `<html>` (or any wrapper) to control it. The [theming guide](https://sudharshanpanidev.github.io/flowpane/docs/theming) has a live playground that shows contrast as you pick colours.
 
-## Accessibility
+<table>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/SudharshanPaniDev/flowpane/main/.github/assets/dialog-dark.png" alt="Dark theme: a destructive alert dialog asking to cancel two orders" /></td>
+    <td><img src="https://raw.githubusercontent.com/SudharshanPaniDev/flowpane/main/.github/assets/stepper-form.png" alt="A multi-step New order dialog with a Stepper and an inline email validation error" /></td>
+  </tr>
+  <tr>
+    <td><img src="https://raw.githubusercontent.com/SudharshanPaniDev/flowpane/main/.github/assets/docs-component.png" alt="Documentation page for Tabs with a live preview and API reference" /></td>
+    <td><img src="https://raw.githubusercontent.com/SudharshanPaniDev/flowpane/main/.github/assets/theming.png" alt="Theming playground re-colouring components violet with a contrast check" /></td>
+  </tr>
+</table>
 
-- Follows the [WAI-ARIA Authoring Practices](https://www.w3.org/WAI/ARIA/apg/) patterns for dialogs, tabs, and tables.
-- Native elements first (`<button>`, `<input>`, `<select>`, `<table>`), so browsers and assistive tech do the heavy lifting.
-- Every component has unit tests for keyboard behaviour and an axe-core check, and every Storybook story is audited in a real browser, in both themes, including colour contrast.
+## Exploring the components
 
-## Development
+- **[Docs site](https://sudharshanpanidev.github.io/flowpane/):** live examples with copyable code, props tables, keyboard and accessibility notes for every component, plus an interactive Orders admin demo.
+- **[Storybook](https://sudharshanpanidev.github.io/flowpane/storybook/):** every component state, with a light/dark toolbar toggle.
+
+## Accessibility and testing
+
+- 53 component tests (Vitest, Testing Library, user-event) cover keyboard behaviour, focus management, ARIA state, and user-visible output. Every component's suite includes an [axe-core](https://github.com/dequelabs/axe-core) check.
+- CI runs the type check, the tests on **React 19 and React 18**, the package build, and the docs build.
+- Before release, every docs page and Storybook story was audited with axe in Chrome in both themes, including colour contrast. This browser audit is not yet automated in CI.
+
+## Local development
 
 ```bash
 npm install
 npm run dev          # docs site at http://localhost:5180
-npm run storybook    # component workbench at http://localhost:6006
-npm test             # Vitest + Testing Library + axe-core
+npm run storybook    # Storybook at http://localhost:6006
+npm test             # unit and accessibility tests
 npm run typecheck
 npm run build        # ESM + CJS + type declarations + styles.css into dist/
-npm run build:docs   # docs site + Storybook into site-dist/ (what Vercel deploys)
-npm run check        # typecheck, tests, and package build
+npm run build:docs   # docs site + Storybook into site-dist/
+npm run check        # typecheck, tests, and package build (runs before publishing)
 ```
+
+Project layout: library source in `src/` (one folder per component with its tests and stories), design tokens and styles in `src/styles/`, and the documentation site in `site/`.
+
+## Contributing
+
+Issues and pull requests are welcome. Please keep changes focused, add or update tests for behaviour changes, and run `npm run check` before opening a pull request. New components should follow the existing patterns: native elements first, a visible label or accessible name, keyboard support, and an axe check in the tests.
 
 ## Roadmap
 
-Combobox, DatePicker, Popover/Menu, column filters and column visibility for DataTable, and visual regression tests.
+Combobox, DatePicker, Popover/Menu, column filters and column visibility for DataTable, server-side DataTable mode, and visual regression tests.
 
 ## License
 
-MIT © Sudharshan Pani
+[MIT](LICENSE) © Sudharshan Pani

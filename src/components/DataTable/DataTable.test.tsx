@@ -72,6 +72,32 @@ describe("DataTable", () => {
     expect(firstColumn()).toEqual(["A-1", "A-2", "A-10"]);
   });
 
+  it("keeps empty values last in both sort directions", async () => {
+    const user = userEvent.setup();
+    const data = [
+      { id: "a", score: 2 },
+      { id: "b", score: null },
+      { id: "c", score: 9 },
+      { id: "d", score: undefined }
+    ];
+    render(
+      <DataTable
+        data={data}
+        columns={[
+          { id: "id", header: "Id", accessor: (r) => r.id },
+          { id: "score", header: "Score", accessor: (r) => r.score, sortable: true }
+        ]}
+        getRowId={(r) => r.id}
+        caption="Scores"
+      />
+    );
+    const sortButton = screen.getByRole("button", { name: /Score/ });
+    await user.click(sortButton);
+    expect(firstColumn()).toEqual(["a", "c", "b", "d"]);
+    await user.click(sortButton);
+    expect(firstColumn()).toEqual(["c", "a", "b", "d"]);
+  });
+
   it("filters rows with search, announces the count, and offers to clear", async () => {
     const user = userEvent.setup();
     render(<DataTable data={orders} columns={columns} getRowId={(o) => o.id} caption="Orders" searchable />);

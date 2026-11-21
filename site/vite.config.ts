@@ -6,6 +6,8 @@ const fromRoot = (path: string) => fileURLToPath(new URL(path, import.meta.url))
 
 export default defineConfig({
   root: fromRoot("."),
+  // "/" on Vercel; "/flowpane/" for GitHub Pages (set by the docs workflow).
+  base: process.env.DOCS_BASE ?? "/",
   plugins: [react()],
   resolve: {
     // Examples import from "flowpane" exactly as users would; locally that resolves to the library source.

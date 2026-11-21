@@ -42,7 +42,16 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   );
 
   if (!label) {
-    return <span className={cx("fp-checkbox", className)}>{input}</span>;
+    return (
+      <span className={cx("fp-checkbox", className)}>
+        {input}
+        {description && (
+          <span className="fp-checkbox__description" id={descriptionId}>
+            {description}
+          </span>
+        )}
+      </span>
+    );
   }
 
   return (

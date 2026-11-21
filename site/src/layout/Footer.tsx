@@ -13,7 +13,7 @@ export function Footer() {
           GitHub
         </a>
         {" · "}
-        <a href="/storybook/">Storybook</a>
+        <a href={`${import.meta.env.BASE_URL}storybook/`}>Storybook</a>
       </p>
     </footer>
   );

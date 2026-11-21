@@ -24,6 +24,13 @@ describe("Checkbox", () => {
     expect(screen.getByRole("checkbox")).toHaveAccessibleDescription("Archived orders are hidden from the list.");
   });
 
+  it("renders and links the description when there is no visible label", async () => {
+    const { container } = render(<Checkbox aria-label="Select order A-102" description="Ships tomorrow" />);
+    const box = screen.getByRole("checkbox", { name: "Select order A-102" });
+    expect(box).toHaveAccessibleDescription("Ships tomorrow");
+    await expectNoA11yViolations(container);
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(
       <>

@@ -36,10 +36,10 @@ export function Accessibility() {
       <h2 className="docs-h2">How it's tested</h2>
       <ul className="docs-list">
         <li>Unit tests for keyboard behaviour, focus, and ARIA state using Testing Library and user-event.</li>
-        <li>An axe-core check in every component's test suite.</li>
+        <li>An axe-core check in every component's test suite, run in CI on React 19 and React 18.</li>
         <li>
-          Every Storybook story is audited with axe in a real browser in both light and dark themes, which also covers
-          colour contrast.
+          Before release, every docs page and Storybook story was audited with axe in Chrome in both light and dark
+          themes, which also covers colour contrast. This browser audit isn't automated in CI yet.
         </li>
       </ul>
 

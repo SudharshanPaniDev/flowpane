@@ -3,6 +3,7 @@ import {
   useContext,
   useId,
   useRef,
+  useState,
   type ButtonHTMLAttributes,
   type HTMLAttributes,
   type KeyboardEvent,
@@ -10,11 +11,15 @@ import {
 } from "react";
 import { cx } from "../../utils/cx";
 import { useControllableState } from "../../utils/useControllableState";
+import { useIsomorphicLayoutEffect } from "../../utils/useIsomorphicLayoutEffect";
 
 interface TabsContextValue {
   baseId: string;
   value: string;
   setValue: (value: string) => void;
+  /** Tab that takes keyboard focus while no enabled tab is selected, so the list stays reachable. */
+  fallbackValue: string | null;
+  setFallbackValue: (value: string | null) => void;
 }
 
 const TabsContext = createContext<TabsContextValue | null>(null);
@@ -41,9 +46,10 @@ export interface TabsProps {
 export function Tabs({ value, defaultValue = "", onValueChange, className, children }: TabsProps) {
   const baseId = useId();
   const [current, setCurrent] = useControllableState({ value, defaultValue, onChange: onValueChange });
+  const [fallbackValue, setFallbackValue] = useState<string | null>(null);
 
   return (
-    <TabsContext.Provider value={{ baseId, value: current, setValue: setCurrent }}>
+    <TabsContext.Provider value={{ baseId, value: current, setValue: setCurrent, fallbackValue, setFallbackValue }}>
       <div className={cx("fp-tabs", className)}>{children}</div>
     </TabsContext.Provider>
   );
@@ -55,8 +61,15 @@ export interface TabListProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export function TabList({ className, children, onKeyDown, ...rest }: TabListProps) {
-  const { setValue } = useTabsContext("TabList");
+  const { setValue, setFallbackValue } = useTabsContext("TabList");
   const listRef = useRef<HTMLDivElement>(null);
+
+  // If no enabled tab is selected (e.g. no defaultValue), the first enabled tab becomes the Tab stop.
+  useIsomorphicLayoutEffect(() => {
+    const tabs = Array.from(listRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]:not(:disabled)') ?? []);
+    const hasSelected = tabs.some((tab) => tab.getAttribute("aria-selected") === "true");
+    setFallbackValue(hasSelected ? null : (tabs[0]?.dataset.value ?? null));
+  });
 
   // Arrow keys move between tabs and select them; Home/End jump to the ends. Disabled tabs are skipped.
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -98,7 +111,7 @@ export interface TabProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
 }
 
 export function Tab({ value, className, children, onClick, ...rest }: TabProps) {
-  const { baseId, value: selected, setValue } = useTabsContext("Tab");
+  const { baseId, value: selected, setValue, fallbackValue } = useTabsContext("Tab");
   const isSelected = selected === value;
 
   return (
@@ -109,7 +122,7 @@ export function Tab({ value, className, children, onClick, ...rest }: TabProps) 
       aria-selected={isSelected}
       aria-controls={idFor(baseId, "panel", value)}
       // Roving tabindex: only the selected tab is in the Tab order; arrows move within the list.
-      tabIndex={isSelected ? 0 : -1}
+      tabIndex={isSelected || fallbackValue === value ? 0 : -1}
       data-value={value}
       className={cx("fp-tab", className)}
       onClick={(event) => {
